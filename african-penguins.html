@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>African Penguins</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #111110;
+      --white: #faf9f6;
+      --ink: #2c2b28;
+      --muted: #6b6a66;
+      --rule: #d6d4ce;
+      --highlight: #e8e4db;
+      --ph-bg: #eceae4;
+      --ph-border: #cac7bf;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Source Serif 4', Georgia, serif;
+      background: var(--white);
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      border-bottom: 1px solid var(--rule);
+      position: sticky;
+      top: 0;
+      background: var(--white);
+      z-index: 100;
+      animation: fadeDown 0.5s ease both;
+    }
+    .site-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--black);
+    }
+    .nav-links { display: flex; align-items: center; gap: 8px; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--ink);
+      font-size: 0.95rem;
+      padding: 6px 14px;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .nav-links a:hover { background: var(--highlight); }
+    .nav-btn { background: var(--black) !important; color: var(--white) !important; border-radius: 6px !important; font-weight: 600; }
+    .nav-btn:hover { background: var(--ink) !important; transform: translateY(-1px); }
+
+    /* ── HERO TEXT ── */
+    .hero {
+      max-width: 900px;
+      margin: 60px auto 0;
+      padding: 0 40px;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--black);
+      margin-bottom: 28px;
+    }
+    .hero p { font-size: 1.05rem; font-weight: 300; color: var(--ink); max-width: 780px; line-height: 1.8; }
+    .hero p a { color: var(--ink); text-decoration-color: var(--muted); text-underline-offset: 3px; transition: color 0.2s; }
+    .hero p a:hover { color: var(--black); }
+    .cta-btn {
+      display: inline-block;
+      margin-top: 44px;
+      padding: 14px 28px;
+      background: var(--black);
+      color: var(--white);
+      text-decoration: none;
+      font-family: 'Source Serif 4', serif;
+      font-size: 0.95rem;
+      border-radius: 6px;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+    .cta-btn:hover { background: var(--ink); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
+
+    /* ── PHOTO PLACEHOLDER (shared) ── */
+    .photo-placeholder {
+      width: 100%;
+      border-radius: 8px;
+      border: 2px dashed var(--ph-border);
+      background: var(--ph-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 32px 20px;
+      color: var(--muted);
+    }
+    .photo-placeholder svg { opacity: 0.4; }
+    .photo-placeholder .ph-label { font-family: 'Playfair Display', serif; font-size: 0.95rem; color: var(--muted); }
+    .photo-placeholder .ph-code { font-family: 'Courier New', monospace; font-size: 0.75rem; background: rgba(0,0,0,0.07); padding: 5px 10px; border-radius: 4px; color: var(--ink); }
+    .photo-placeholder.tall  { min-height: 460px; }
+    .photo-placeholder.medium { min-height: 260px; }
+
+    /* ── HERO IMAGE WRAP ── */
+    .hero-image-wrap {
+      max-width: 900px;
+      margin: 60px auto 0;
+      padding: 0 40px;
+      animation: fadeUp 0.9s 0.2s ease both;
+    }
+
+    /* ── SECTIONS GRID (living area / body structure) ── */
+    .sections-grid {
+      max-width: 900px;
+      margin: 60px auto 0;
+      padding: 0 40px 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px 60px;
+      animation: fadeUp 1s 0.3s ease both;
+    }
+    .section-block h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--black);
+    }
+    .section-block p { font-size: 0.97rem; font-weight: 300; color: var(--ink); line-height: 1.75; margin-top: 18px; }
+
+    /* ── LIFE CYCLE ── */
+    .lifecycle-section {
+      max-width: 900px;
+      margin: 72px auto 0;
+      padding: 0 40px;
+      animation: fadeUp 1s 0.4s ease both;
+    }
+    .lifecycle-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--black);
+      text-align: center;
+      margin-bottom: 36px;
+    }
+    .lifecycle-stages {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      position: relative;
+      padding: 0 10px 8px;
+      gap: 8px;
+    }
+    /* Dashed circular arc drawn with SVG, positioned above the stages row */
+    .lifecycle-arc-wrap {
+      position: relative;
+      margin-bottom: 0;
+    }
+    .lifecycle-arc {
+      width: 100%;
+      display: block;
+      overflow: visible;
+    }
+    .stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+    }
+    .stage-emoji {
+      font-size: 3.2rem;
+      line-height: 1;
+      /* swap this span for an <img> when you have real illustrations */
+    }
+    .stage-emoji.large { font-size: 4.2rem; }
+    .stage-label {
+      font-family: 'Source Serif 4', serif;
+      font-size: 0.82rem;
+      font-weight: 400;
+      color: var(--ink);
+      text-align: center;
+    }
+    /* Timeline bar */
+    .lifecycle-bar {
+      display: flex;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-top: 20px;
+      font-family: 'Source Serif 4', serif;
+      font-size: 0.82rem;
+      font-weight: 400;
+      color: #fff;
+    }
+    .bar-seg {
+      flex: 1;
+      padding: 7px 10px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    /* ── DIET SECTION ── */
+    .diet-section {
+      max-width: 900px;
+      margin: 72px auto 0;
+      padding: 0 40px 80px;
+      animation: fadeUp 1s 0.45s ease both;
+    }
+    .diet-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--black);
+      margin-bottom: 32px;
+    }
+    .diet-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+      margin-bottom: 40px;
+    }
+    .diet-intro-text {
+      font-size: 0.97rem;
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1.8;
+    }
+    .food-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeUp   { from { opacity: 0; transform: translateY(18px);  } to { opacity: 1; transform: translateY(0); } }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 680px) {
+      nav { padding: 16px 20px; }
+      .hero, .hero-image-wrap, .sections-grid, .lifecycle-section, .diet-section { padding: 0 20px 40px; }
+      .hero { margin-top: 36px; }
+      .sections-grid, .diet-intro, .food-grid { grid-template-columns: 1fr; gap: 28px; }
+      .lifecycle-stages { gap: 4px; }
+      .stage-emoji { font-size: 2rem; }
+      .bar-seg { font-size: 0.7rem; padding: 6px 4px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <span class="site-name">Site name</span>
+    <ul class="nav-links">
+      <li><a href="#">Page</a></li>
+      <li><a href="#">Page</a></li>
+      <li><a href="#">Page</a></li>
+      <li><a href="#" class="nav-btn">Button</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO TEXT -->
+  <section class="hero">
+    <h1>African Penguins</h1>
+    <p>
+      The African penguin (<em>Spheniscus demersus</em>), also known as Cape penguin or South African
+      penguin, is a species of <a href="#">penguin</a> confined to southern
+      <a href="#">African</a> waters. It is the only penguin found in the
+      <a href="#">Old World</a>. Like all penguins, it is <a href="#">flightless</a>, with a
+      streamlined body and wings stiffened and flattened into <a href="#">flippers</a> for a marine
+      habitat. Adults weigh an average of 2.2–3.5 kg (4.9–7.7 lb) and are 60–70 cm (24–28 in) tall.
+      The species has distinctive pink patches of skin above the eyes and a black facial mask.
+      The body's upper parts are black and sharply delineated from the white underparts, which are
+      spotted and marked with a black band.
+    </p>
+    <a href="#" class="cta-btn">Button</a>
+  </section>
+
+  <!-- HERO IMAGE -->
+  <div class="hero-image-wrap">
+    <!-- REPLACE with: <img src="hero-photo.jpg" alt="African penguin" style="width:100%;border-radius:8px;display:block;"> -->
+    <div class="photo-placeholder tall">
+      <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+      </svg>
+      <span class="ph-label">Hero photo</span>
+      <code class="ph-code">&lt;img src="hero-photo.jpg" alt="African penguin" style="width:100%;border-radius:8px;display:block;"&gt;</code>
+    </div>
+  </div>
+
+  <!-- LIVING AREA / BODY STRUCTURE -->
+  <div class="sections-grid">
+    <div class="section-block">
+      <h2>Living area</h2>
+      <!-- REPLACE with: <img src="colony-photo.jpg" alt="Penguin colony" style="width:100%;border-radius:6px;display:block;"> -->
+      <div class="photo-placeholder medium">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+        </svg>
+        <span class="ph-label">Colony photo</span>
+        <code class="ph-code">&lt;img src="colony-photo.jpg" ...&gt;</code>
+      </div>
+      <p>African penguins inhabit the rocky, temperate coastlines and offshore islands of
+        southwestern Africa, specifically from Namibia to Algoa Bay near Port Elizabeth, South Africa.</p>
+    </div>
+
+    <div class="section-block">
+      <h2>Body structure</h2>
+      <!-- REPLACE with: <img src="body-structure-photo.jpg" alt="Body structure" style="width:100%;border-radius:6px;display:block;"> -->
+      <div class="photo-placeholder medium">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+        </svg>
+        <span class="ph-label">Body structure photo</span>
+        <code class="ph-code">&lt;img src="body-structure-photo.jpg" ...&gt;</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIFE CYCLE -->
+  <section class="lifecycle-section">
+    <h2 class="lifecycle-title">Life cycle of African penguin</h2>
+
+    <!-- Dashed arc SVG -->
+    <svg class="lifecycle-arc" viewBox="0 0 860 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:100%;display:block;overflow:visible;margin-bottom:-10px;">
+      <defs>
+        <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+          <polygon points="0 0, 8 3, 0 6" fill="#999"/>
+        </marker>
+      </defs>
+      <!-- Arc from Egg (far left) curving up and over to Adult (far right) -->
+      <path d="M 86 100 C 86 10, 774 10, 774 100"
+            fill="none" stroke="#aaa" stroke-width="2"
+            stroke-dasharray="8 6"
+            marker-end="url(#arrowhead)"/>
+      <!-- Small upward arrow near Egg (bottom-left start) -->
+      <path d="M 86 95 L 86 75" fill="none" stroke="#aaa" stroke-width="2"
+            marker-end="url(#arrowhead)"/>
+    </svg>
+
+    <!-- Stage items -->
+    <div class="lifecycle-stages">
+      <!-- Egg (top-left, so push it up visually) -->
+      <div class="stage" style="margin-bottom:30px;">
+        <!-- REPLACE span with: <img src="egg.png" alt="Egg" style="height:90px;object-fit:contain;"> -->
+        <span class="stage-emoji">🥚</span>
+        <span class="stage-label">Egg</span>
+      </div>
+      <div class="stage">
+        <!-- REPLACE span with: <img src="chick.png" alt="Chick" style="height:90px;object-fit:contain;"> -->
+        <span class="stage-emoji">🐣</span>
+        <span class="stage-label">Chick</span>
+      </div>
+      <div class="stage">
+        <!-- REPLACE span with: <img src="fledgling.png" alt="Fledgling" style="height:90px;object-fit:contain;"> -->
+        <span class="stage-emoji">🐧</span>
+        <span class="stage-label">Fledgling</span>
+      </div>
+      <div class="stage">
+        <!-- REPLACE span with: <img src="juvenile.png" alt="Juvenile / Immature" style="height:110px;object-fit:contain;"> -->
+        <span class="stage-emoji">🐧</span>
+        <span class="stage-label">Juvenile / Immature</span>
+      </div>
+      <!-- Adult (top-right, push up too) -->
+      <div class="stage" style="margin-bottom:30px;">
+        <!-- REPLACE span with: <img src="adult.png" alt="Adult" style="height:130px;object-fit:contain;"> -->
+        <span class="stage-emoji large">🐧</span>
+        <span class="stage-label">Adult</span>
+      </div>
+    </div>
+
+    <!-- Colored timeline bar -->
+    <div class="lifecycle-bar">
+      <div class="bar-seg" style="background:#d4a830; flex:0.8;">~39 days</div>
+      <div class="bar-seg" style="background:#6b9ed6; flex:1;">2–3 months</div>
+      <div class="bar-seg" style="background:#4a7ec0; flex:1.3;">2–3 months to fledging</div>
+      <div class="bar-seg" style="background:#2e4f8e; flex:1.2;">20+ years</div>
+    </div>
+  </section>
+
+  <!-- DIET -->
+  <section class="diet-section">
+    <h2 class="diet-title">What do African penguins eat?</h2>
+
+    <!-- Intro: photo left, text right -->
+    <div class="diet-intro">
+      <div>
+        <!-- REPLACE with: <img src="penguin-swimming.jpg" alt="Penguin hunting underwater" style="width:100%;border-radius:8px;display:block;"> -->
+        <div class="photo-placeholder" style="min-height:260px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+          </svg>
+          <span class="ph-label">Penguin swimming photo</span>
+          <code class="ph-code">&lt;img src="swimming.jpg" ...&gt;</code>
+        </div>
+      </div>
+      <p class="diet-intro-text">
+        African penguins are carnivores that feed primarily on pelagic schooling fish, with a diet
+        consisting mostly of sardines, anchovies, and red-eye round herrings. They also consume small
+        crustaceans, such as krill and shrimps, along with squid. They forage in the open sea,
+        consuming up to 540 grams of food daily, often swallowing fish whole.
+      </p>
+    </div>
+
+    <!-- 2×2 food photo grid -->
+    <div class="food-grid">
+      <div>
+        <!-- REPLACE with: <img src="sardines.jpg" alt="Sardines" style="width:100%;border-radius:8px;display:block;"> -->
+        <div class="photo-placeholder" style="min-height:190px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+          </svg>
+          <span class="ph-label">Sardines</span>
+          <code class="ph-code">&lt;img src="sardines.jpg" ...&gt;</code>
+        </div>
+      </div>
+      <div>
+        <!-- REPLACE with: <img src="anchovies.jpg" alt="Anchovies / herring" style="width:100%;border-radius:8px;display:block;"> -->
+        <div class="photo-placeholder" style="min-height:190px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+          </svg>
+          <span class="ph-label">Anchovies / Herring</span>
+          <code class="ph-code">&lt;img src="anchovies.jpg" ...&gt;</code>
+        </div>
+      </div>
+      <div>
+        <!-- REPLACE with: <img src="krill.jpg" alt="Krill / shrimp" style="width:100%;border-radius:8px;display:block;"> -->
+        <div class="photo-placeholder" style="min-height:190px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+          </svg>
+          <span class="ph-label">Krill / Shrimp</span>
+          <code class="ph-code">&lt;img src="krill.jpg" ...&gt;</code>
+        </div>
+      </div>
+      <div>
+        <!-- REPLACE with: <img src="squid.jpg" alt="Squid" style="width:100%;border-radius:8px;display:block;"> -->
+        <div class="photo-placeholder" style="min-height:190px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+          </svg>
+          <span class="ph-label">Squid</span>
+          <code class="ph-code">&lt;img src="squid.jpg" ...&gt;</code>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
